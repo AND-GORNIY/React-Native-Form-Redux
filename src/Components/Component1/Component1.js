@@ -7,9 +7,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import FormComponent3 from './FormComponent3';
+import Component3 from '../Component3/Component3';
+import {connect} from 'react-redux';
+import {set_data} from '../../actions/actSetUserData';
 
-class FormComponent1 extends Component {
+// const callAPI = data => {
+//   return new Promise(resolve => {
+//     setTimeout(() => resolve(data), 5000);
+//   });
+// };
+
+class Component1 extends Component {
   state = {
     cardNumber: '',
     expirationDate: '',
@@ -24,6 +32,8 @@ class FormComponent1 extends Component {
       firstNameValid: true,
       lastNameValid: true,
     },
+    editableForm: true,
+    disabledButtom: false,
   };
 
   validateField = () => {
@@ -60,6 +70,7 @@ class FormComponent1 extends Component {
       cvvValid &&
       firstNameValid &&
       lastNameValid;
+    this.props.set_data(this.state);
 
     this.setState(
       {
@@ -84,6 +95,8 @@ class FormComponent1 extends Component {
       firstName,
       lastName,
       validationResult,
+      // editableForm,
+      // disabledButtom,
     } = this.state;
 
     this.props.setDataApp(
@@ -96,6 +109,14 @@ class FormComponent1 extends Component {
     );
   };
 
+  // callAPI = data => {
+  //   return new Promise(resolve => {
+  //     setTimeout(() => {
+  //       resolve(data);
+  //     }, 2000);
+  //   });
+  // };
+
   render() {
     const {
       cardNumberValid,
@@ -104,6 +125,9 @@ class FormComponent1 extends Component {
       firstNameValid,
       lastNameValid,
     } = this.state.validationFields;
+    const {editableForm, disabledButtom} = this.state;
+
+    console.log(this.props);
     return (
       <SafeAreaView style={styles.FormContainer}>
         <Text style={styles.Text}>Card info </Text>
@@ -118,6 +142,7 @@ class FormComponent1 extends Component {
           ]}
           maxLength={16}
           placeholder={'****-****-****-****'}
+          editable={editableForm}
         />
 
         <View style={styles.thirdLine}>
@@ -135,6 +160,7 @@ class FormComponent1 extends Component {
               ]}
               maxLength={5}
               placeholder={'**/**'}
+              editable={editableForm}
             />
           </View>
 
@@ -150,6 +176,7 @@ class FormComponent1 extends Component {
               ]}
               maxLength={4}
               placeholder={'****'}
+              editable={editableForm}
             />
           </View>
         </View>
@@ -163,6 +190,7 @@ class FormComponent1 extends Component {
             firstNameValid ? styles.borderStyleTrue : styles.borderStyleError,
           ]}
           maxLength={16}
+          editable={editableForm}
         />
 
         <Text style={styles.Text}> SURNAME </Text>
@@ -174,21 +202,36 @@ class FormComponent1 extends Component {
             lastNameValid ? styles.borderStyleTrue : styles.borderStyleError,
           ]}
           maxLength={16}
+          editable={editableForm}
         />
 
-        <TouchableOpacity style={styles.button} onPress={this.validateField}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={this.validateField}
+          disabled={disabledButtom}>
           <Text style={styles.buttonText}> Submit </Text>
         </TouchableOpacity>
-        <FormComponent3
+
+        {/* <Component3
           setCardType={this.props.setCardType}
           cardNumber={this.props.cardNumber}
-        />
+        /> */}
       </SafeAreaView>
     );
   }
 }
+const mapDispatchToprops = dispatch => {
+  return {
+    set_data: userInfo => dispatch(set_data(userInfo)),
+  };
+};
 
-export default FormComponent1;
+const Component1Container = connect(
+  null,
+  mapDispatchToprops,
+)(Component1);
+
+export default Component1Container;
 
 const styles = StyleSheet.create({
   FormContainer: {

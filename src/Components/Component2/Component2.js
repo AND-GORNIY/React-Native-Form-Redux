@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
-class FormComponent2 extends React.Component {
+class Component2 extends React.Component {
   state = {
     update: false,
     timerID: undefined,
@@ -50,7 +50,7 @@ class FormComponent2 extends React.Component {
         <View style={styles.textDirect}>
           <Text style={styles.textStyle}>
             {' '}
-            Card info: ************{cardNumber.substr(11, 4)}
+            Card info: ************{cardNumber.substr(12, 4)}
           </Text>
           <Text style={styles.textStyle}> Name: {firstName} </Text>
           <Text style={styles.textStyle}> Surname: {lastName}</Text>
@@ -85,4 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FormComponent2;
+export default Component2;

@@ -1,9 +1,9 @@
 import React from 'react';
 import {} from 'react-native';
 
-class FormComponent3 extends React.PureComponent {
+class Component3 extends React.PureComponent {
   checkCardType = cardNumber => {
-    let lastFourSymbol = Number(cardNumber.substr(11, 4));
+    let lastFourSymbol = Number(cardNumber.substr(12, 4));
     let type;
     if (lastFourSymbol < 2000) {
       type = 'VISA';
@@ -23,4 +23,4 @@ class FormComponent3 extends React.PureComponent {
     }
   }
 }
-export default FormComponent3;
+export default Component3;
