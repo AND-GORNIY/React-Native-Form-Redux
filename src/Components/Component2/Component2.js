@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
+import {connect} from 'react-redux';
 
 class Component2 extends React.Component {
   state = {
@@ -42,10 +43,10 @@ class Component2 extends React.Component {
       lastName,
       validationResult,
       cardType,
+      isloading,
     } = this.props;
     const {update} = this.state;
-
-    if (update && validationResult) {
+    if (update && validationResult && !isloading) {
       return (
         <View style={styles.textDirect}>
           <Text style={styles.textStyle}>
@@ -61,6 +62,7 @@ class Component2 extends React.Component {
 
     if (
       update &&
+      !isloading &&
       (cardNumber || expirationDate || cvv || firstName || lastName || cardType)
     ) {
       return (
@@ -85,4 +87,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Component2;
+const mapStateToProps = store => {
+  return {
+    cardNumber: store.userInfo.cardNumber,
+    expirationDate: store.userInfo.expirationDate,
+    cvv: store.userInfo.cvv,
+    firstName: store.userInfo.firstName,
+    lastName: store.userInfo.lastName,
+    validationResult: store.userInfo.validationResult,
+    isloading: store.userInfo.isloading,
+    cardType: store.userInfo.cardType,
+  };
+};
+
+const Component2Container = connect(mapStateToProps)(Component2);
+
+export default Component2Container;

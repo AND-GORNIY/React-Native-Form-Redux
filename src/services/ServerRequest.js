@@ -15,7 +15,7 @@ export const callAPI = data => {
         resolve({data, result});
       }
       reject({data, result});
-    }, 5000);
+    }, 2000);
   });
 };
 

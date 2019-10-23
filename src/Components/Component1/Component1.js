@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Component3 from '../Component3/Component3';
 import {connect} from 'react-redux';
-import {set_data} from '../../actions/actSetUserData';
+import {submCreditCard} from '../../actions/submCreditCard';
 
 class Component1 extends Component {
   state = {
@@ -19,20 +19,10 @@ class Component1 extends Component {
     cvv: '',
     firstName: '',
     lastName: '',
-    validationResult: undefined,
-    // validationFields: {
-    //   cardNumberValid: true,
-    //   expirationDateValid: true,
-    //   cvvValid: true,
-    //   firstNameValid: true,
-    //   lastNameValid: true,
-    // },
-    editableForm: true,
-    disabledButtom: false,
   };
 
   onSubmit = () => {
-    this.props.setUserData(this.state);
+    this.props.submCreditCard(this.state);
   };
 
   render() {
@@ -44,8 +34,6 @@ class Component1 extends Component {
       lastNameValid,
     } = this.props.validationFields;
     const {editableForm, disabledButtom, animateSpiner} = this.props;
-
-    // console.log('!!!!', this.props);
 
     return (
       <SafeAreaView style={styles.FormContainer}>
@@ -134,11 +122,9 @@ class Component1 extends Component {
           size="large"
           color="#00ff00"
           animating={animateSpiner}
+          style={styles.spiner}
         />
-        {/* <Component3
-          setCardType={this.props.setCardType}
-          cardNumber={this.props.cardNumber}
-        /> */}
+        <Component3 />
       </SafeAreaView>
     );
   }
@@ -155,7 +141,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToprops = dispatch => {
   return {
-    setUserData: userInfo => dispatch(set_data(userInfo)),
+    submCreditCard: userInfo => dispatch(submCreditCard(userInfo)),
   };
 };
 
@@ -210,77 +196,7 @@ const styles = StyleSheet.create({
   thirdLineInput: {
     width: 150,
   },
+  spiner: {
+    marginTop: 15,
+  },
 });
-
-// validateField = () => {
-//   const {cardNumber, expirationDate, cvv, firstName, lastName} = this.state;
-//   let cardNumberValid,
-//     expirationDateValid,
-//     cvvValid,
-//     firstNameValid,
-//     lastNameValid,
-//     resultValid;
-
-//   const checkDate = val => {
-//     if (
-//       !isNaN(val.slice(0, 2)) &&
-//       +val.slice(0, 2) < 13 &&
-//       !isNaN(val.substr(3, 2)) &&
-//       val.length === 5
-//     ) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   };
-
-//   cardNumberValid = cardNumber.length === 16 ? true : false;
-//   expirationDateValid = checkDate(expirationDate);
-//   cvvValid = cvv.length > 2 && cvv.length < 5 ? true : false;
-//   firstNameValid = firstName.length > 3 ? true : false;
-//   lastNameValid = lastName.length > 3 ? true : false;
-
-//   resultValid =
-//     cardNumberValid &&
-//     expirationDateValid &&
-//     cvvValid &&
-//     firstNameValid &&
-//     lastNameValid;
-//   this.props.set_data(this.state);
-
-//   this.setState(
-//     {
-//       validationFields: {
-//         cardNumberValid: cardNumberValid,
-//         expirationDateValid: expirationDateValid,
-//         cvvValid: cvvValid,
-//         firstNameValid: firstNameValid,
-//         lastNameValid: lastNameValid,
-//       },
-//       validationResult: resultValid,
-//     },
-//     this.passData,
-//   );
-// };
-
-// passData = () => {
-//   const {
-//     cardNumber,
-//     expirationDate,
-//     cvv,
-//     firstName,
-//     lastName,
-//     validationResult,
-//     // editableForm,
-//     // disabledButtom,
-//   } = this.state;
-
-//   this.props.setDataApp(
-//     cardNumber,
-//     expirationDate,
-//     cvv,
-//     firstName,
-//     lastName,
-//     validationResult,
-//   );
-// };

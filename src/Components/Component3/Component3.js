@@ -1,26 +1,36 @@
 import React from 'react';
-import {} from 'react-native';
+import {Text} from 'react-native';
+import {connect} from 'react-redux';
+import {setCardType} from '../../actions/setCardType';
+import {checkCardType} from '../../services/checkCardType';
 
 class Component3 extends React.PureComponent {
-  checkCardType = cardNumber => {
-    let lastFourSymbol = Number(cardNumber.substr(12, 4));
-    let type;
-    if (lastFourSymbol < 2000) {
-      type = 'VISA';
-    } else {
-      type = 'MASTERCARD';
-    }
-    this.props.setCardType(type);
-  };
-
   render() {
-    const cardNumber = this.props.cardNumber;
-    if (cardNumber !== undefined && cardNumber.length === 16) {
-      this.checkCardType(cardNumber);
-      return null;
-    } else {
-      return null;
+    const {cardNumber, setCardType} = this.props;
+    if (cardNumber !== undefined && cardNumber !== '') {
+      const type = checkCardType(cardNumber);
+      setCardType(type);
+      return <Text>{type}</Text>;
     }
+    return null;
   }
 }
-export default Component3;
+
+const mapStateToProps = store => {
+  return {
+    cardNumber: store.userInfo.cardNumber,
+  };
+};
+
+const mapDispatchToprops = dispatch => {
+  return {
+    setCardType: type => dispatch(setCardType(type)),
+  };
+};
+
+const Component3Container = connect(
+  mapStateToProps,
+  mapDispatchToprops,
+)(Component3);
+
+export default Component3Container;

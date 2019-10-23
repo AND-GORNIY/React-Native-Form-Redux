@@ -10,7 +10,7 @@ export const validation = (
     cvvValid,
     firstNameValid,
     lastNameValid,
-    resultValid;
+    validationResult;
 
   const checkDate = val => {
     if (
@@ -31,7 +31,7 @@ export const validation = (
   firstNameValid = firstName.length > 3 ? true : false;
   lastNameValid = lastName.length > 3 ? true : false;
 
-  resultValid =
+  validationResult =
     cardNumberValid &&
     expirationDateValid &&
     cvvValid &&
@@ -39,7 +39,7 @@ export const validation = (
     lastNameValid;
 
   return {
-    resultValid: resultValid,
+    validationResult: validationResult,
     validationFields: {
       cardNumberValid: cardNumberValid,
       expirationDateValid: expirationDateValid,
