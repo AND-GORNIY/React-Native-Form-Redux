@@ -1,10 +1,10 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {logger} from 'redux-logger';
 import thunk from 'redux-thunk';
-import component1 from '../reducers/component1';
+import {reducerInfo} from '../reducers/reducerInfo';
 
 const rootReducer = combineReducers({
-  userInfo: component1,
+  userInfo: reducerInfo,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk, logger));

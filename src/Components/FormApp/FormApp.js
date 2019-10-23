@@ -5,57 +5,57 @@ import Component2 from '../Component2';
 import {connect} from 'react-redux';
 
 class FormApp extends Component {
-  state = {
-    cardNumber: '',
-    expirationDate: '',
-    cvv: '',
-    firstName: '',
-    lastName: '',
-    cardType: undefined,
-    validationResult: undefined,
-  };
+  // state = {
+  //   cardNumber: '',
+  //   expirationDate: '',
+  //   cvv: '',
+  //   firstName: '',
+  //   lastName: '',
+  //   cardType: undefined,
+  //   validationResult: undefined,
+  // };
 
-  setDataApp = (
-    cardNumber,
-    expirationDate,
-    cvv,
-    firstName,
-    lastName,
-    validationResult,
-  ) => {
-    this.setState({
-      cardNumber,
-      expirationDate,
-      cvv,
-      firstName,
-      lastName,
-      validationResult,
-    });
-  };
-  setCardType = cardType => {
-    this.setState({
-      cardType,
-    });
-  };
+  // setDataApp = (
+  //   cardNumber,
+  //   expirationDate,
+  //   cvv,
+  //   firstName,
+  //   lastName,
+  //   validationResult,
+  // ) => {
+  //   this.setState({
+  //     cardNumber,
+  //     expirationDate,
+  //     cvv,
+  //     firstName,
+  //     lastName,
+  //     validationResult,
+  //   });
+  // };
+  // setCardType = cardType => {
+  //   this.setState({
+  //     cardType,
+  //   });
+  // };
 
   render() {
-    const {
-      cardNumber,
-      expirationDate,
-      cvv,
-      firstName,
-      lastName,
-      validationResult,
-      cardType,
-    } = this.state;
+    // const {
+    //   cardNumber,
+    //   expirationDate,
+    //   cvv,
+    //   firstName,
+    //   lastName,
+    //   validationResult,
+    //   cardType,
+    // } = this.state;
 
     //console.log(this.props);
     return (
       <ScrollView style={styles.ScrollView}>
         <Component1
-          setDataApp={this.setDataApp}
-          setCardType={this.setCardType}
-          cardNumber={cardNumber}
+        // setDataApp={this.setDataApp}
+        // setCardType={this.setCardType}
+        // cardNumber={cardNumber}
         />
         {/* <Component2
           cardNumber={cardNumber}
@@ -81,7 +81,7 @@ const mapStateToProps = store => {
   //   cardType,
   //   validationResult,
   // } = state.FormApp;
-  console.log('fffff', store);
+  // console.log('fffff', store);
   return {
     cardNumber: store.userInfo.cardNumber,
   };

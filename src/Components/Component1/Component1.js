@@ -6,16 +6,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import Component3 from '../Component3/Component3';
 import {connect} from 'react-redux';
 import {set_data} from '../../actions/actSetUserData';
-
-// const callAPI = data => {
-//   return new Promise(resolve => {
-//     setTimeout(() => resolve(data), 5000);
-//   });
-// };
 
 class Component1 extends Component {
   state = {
@@ -25,97 +20,20 @@ class Component1 extends Component {
     firstName: '',
     lastName: '',
     validationResult: undefined,
-    validationFields: {
-      cardNumberValid: true,
-      expirationDateValid: true,
-      cvvValid: true,
-      firstNameValid: true,
-      lastNameValid: true,
-    },
+    // validationFields: {
+    //   cardNumberValid: true,
+    //   expirationDateValid: true,
+    //   cvvValid: true,
+    //   firstNameValid: true,
+    //   lastNameValid: true,
+    // },
     editableForm: true,
     disabledButtom: false,
   };
 
-  validateField = () => {
-    const {cardNumber, expirationDate, cvv, firstName, lastName} = this.state;
-    let cardNumberValid,
-      expirationDateValid,
-      cvvValid,
-      firstNameValid,
-      lastNameValid,
-      resultValid;
-
-    const checkDate = val => {
-      if (
-        !isNaN(val.slice(0, 2)) &&
-        +val.slice(0, 2) < 13 &&
-        !isNaN(val.substr(3, 2)) &&
-        val.length === 5
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-
-    cardNumberValid = cardNumber.length === 16 ? true : false;
-    expirationDateValid = checkDate(expirationDate);
-    cvvValid = cvv.length > 2 && cvv.length < 5 ? true : false;
-    firstNameValid = firstName.length > 3 ? true : false;
-    lastNameValid = lastName.length > 3 ? true : false;
-
-    resultValid =
-      cardNumberValid &&
-      expirationDateValid &&
-      cvvValid &&
-      firstNameValid &&
-      lastNameValid;
-    this.props.set_data(this.state);
-
-    this.setState(
-      {
-        validationFields: {
-          cardNumberValid: cardNumberValid,
-          expirationDateValid: expirationDateValid,
-          cvvValid: cvvValid,
-          firstNameValid: firstNameValid,
-          lastNameValid: lastNameValid,
-        },
-        validationResult: resultValid,
-      },
-      this.passData,
-    );
+  onSubmit = () => {
+    this.props.setUserData(this.state);
   };
-
-  passData = () => {
-    const {
-      cardNumber,
-      expirationDate,
-      cvv,
-      firstName,
-      lastName,
-      validationResult,
-      // editableForm,
-      // disabledButtom,
-    } = this.state;
-
-    this.props.setDataApp(
-      cardNumber,
-      expirationDate,
-      cvv,
-      firstName,
-      lastName,
-      validationResult,
-    );
-  };
-
-  // callAPI = data => {
-  //   return new Promise(resolve => {
-  //     setTimeout(() => {
-  //       resolve(data);
-  //     }, 2000);
-  //   });
-  // };
 
   render() {
     const {
@@ -124,10 +42,11 @@ class Component1 extends Component {
       cvvValid,
       firstNameValid,
       lastNameValid,
-    } = this.state.validationFields;
-    const {editableForm, disabledButtom} = this.state;
+    } = this.props.validationFields;
+    const {editableForm, disabledButtom, animateSpiner} = this.props;
 
-    console.log(this.props);
+    // console.log('!!!!', this.props);
+
     return (
       <SafeAreaView style={styles.FormContainer}>
         <Text style={styles.Text}>Card info </Text>
@@ -207,11 +126,15 @@ class Component1 extends Component {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={this.validateField}
+          onPress={this.onSubmit}
           disabled={disabledButtom}>
           <Text style={styles.buttonText}> Submit </Text>
         </TouchableOpacity>
-
+        <ActivityIndicator
+          size="large"
+          color="#00ff00"
+          animating={animateSpiner}
+        />
         {/* <Component3
           setCardType={this.props.setCardType}
           cardNumber={this.props.cardNumber}
@@ -220,14 +143,24 @@ class Component1 extends Component {
     );
   }
 }
+
+const mapStateToProps = store => {
+  return {
+    validationFields: store.userInfo.validationFields,
+    animateSpiner: store.userInfo.animateSpiner,
+    editableForm: store.userInfo.editableForm,
+    disabledButtom: store.userInfo.disabledButtom,
+  };
+};
+
 const mapDispatchToprops = dispatch => {
   return {
-    set_data: userInfo => dispatch(set_data(userInfo)),
+    setUserData: userInfo => dispatch(set_data(userInfo)),
   };
 };
 
 const Component1Container = connect(
-  null,
+  mapStateToProps,
   mapDispatchToprops,
 )(Component1);
 
@@ -278,3 +211,76 @@ const styles = StyleSheet.create({
     width: 150,
   },
 });
+
+// validateField = () => {
+//   const {cardNumber, expirationDate, cvv, firstName, lastName} = this.state;
+//   let cardNumberValid,
+//     expirationDateValid,
+//     cvvValid,
+//     firstNameValid,
+//     lastNameValid,
+//     resultValid;
+
+//   const checkDate = val => {
+//     if (
+//       !isNaN(val.slice(0, 2)) &&
+//       +val.slice(0, 2) < 13 &&
+//       !isNaN(val.substr(3, 2)) &&
+//       val.length === 5
+//     ) {
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   };
+
+//   cardNumberValid = cardNumber.length === 16 ? true : false;
+//   expirationDateValid = checkDate(expirationDate);
+//   cvvValid = cvv.length > 2 && cvv.length < 5 ? true : false;
+//   firstNameValid = firstName.length > 3 ? true : false;
+//   lastNameValid = lastName.length > 3 ? true : false;
+
+//   resultValid =
+//     cardNumberValid &&
+//     expirationDateValid &&
+//     cvvValid &&
+//     firstNameValid &&
+//     lastNameValid;
+//   this.props.set_data(this.state);
+
+//   this.setState(
+//     {
+//       validationFields: {
+//         cardNumberValid: cardNumberValid,
+//         expirationDateValid: expirationDateValid,
+//         cvvValid: cvvValid,
+//         firstNameValid: firstNameValid,
+//         lastNameValid: lastNameValid,
+//       },
+//       validationResult: resultValid,
+//     },
+//     this.passData,
+//   );
+// };
+
+// passData = () => {
+//   const {
+//     cardNumber,
+//     expirationDate,
+//     cvv,
+//     firstName,
+//     lastName,
+//     validationResult,
+//     // editableForm,
+//     // disabledButtom,
+//   } = this.state;
+
+//   this.props.setDataApp(
+//     cardNumber,
+//     expirationDate,
+//     cvv,
+//     firstName,
+//     lastName,
+//     validationResult,
+//   );
+// };

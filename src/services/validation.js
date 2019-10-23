@@ -1,4 +1,4 @@
-const validateField = (
+export const validation = (
   cardNumber,
   expirationDate,
   cvv,
@@ -49,4 +49,3 @@ const validateField = (
     },
   };
 };
-export default validateField;
