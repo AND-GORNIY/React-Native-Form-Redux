@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, ScrollView} from 'react-native';
 import Component1 from '../Component1';
 import Component2 from '../Component2';
-// import Component4 from '../Cmponent4';
+// import Component4 from '../Component4';
 
 class FormApp extends Component {
   render() {
